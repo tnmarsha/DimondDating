@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="WebApplication120161027020103" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\trewon\\Documents\\Visual\ Studio\ 2015\\Projects\\DimondDating\\DimondDating\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\trewon\\Documents\\Visual\ Studio\ 2015\\Projects\\DimondDating\\DimondDating\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Data Source=TREY;User ID=tnmarsha;Password=King7562#" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\trewon\\Documents\\Visual\ Studio\ 2015\\Projects\\DimondDating\\DimondDating\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="ApplicationDbContext-Web.config Connection String" description="ApplicationDbContext Connection String used in web.config by the application to access the database." value="Data Source=(LocalDb)\v11.0;Initial Catalog=DimondDating2;Integrated Security=SSPI;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\trewon\\Documents\\Visual\ Studio\ 2015\\Projects\\DimondDating\\DimondDating\\obj\\Release\\Package\\PackageTmp\\Views\\Web\.config$" match="/configuration/connectionStrings/add[@name='ApplicationDbContext']/@connectionString" />
+  </parameter>
+</parameters>

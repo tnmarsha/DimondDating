@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewBag.Title = "Quick Search";
+}<style>
+        input[type=text] {
+            width: 100px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: white;
+            background-image: url('searchicon.png');
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+            -webkit-transition: width 0.4s ease-in-out;
+            transition: width 0.4s ease-in-out;
+        }
+
+            input[type=text]:focus {
+                width: 100%;
+            }
+
+        fieldset {
+            margin: 8px;
+            border: 1px solid silver;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        /*legend {
+        padding: 2px;
+    }*/
+</style>
+
+<center><h2>My Quick Search</h2></center>
+
+<center>
+    <form action="demo_form.asp">
+        <fieldset>
+            @*<input type="text" name="search" placeholder="Search.."><br><br />*@
+            Select Gender: <select>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select><br />
+            Looking For: <select>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select><br />
+            Age: <input type="text" name="Age" value="18"> to <input type="text" name="Age" value="18"><br><br />
+            Location: <input type="text" name="LastName" value="City/Zip"><br>
+
+            <input type="submit" value="Search">
+        </fieldset>
+    </form>
+</center>
+
+
+<h2><br></h2>
+
+<p><br></p>
