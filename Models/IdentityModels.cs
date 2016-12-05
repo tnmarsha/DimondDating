@@ -33,6 +33,7 @@ namespace DimondDating.Models
         }
 
         public System.Data.Entity.DbSet<ContactManager.Models.Contact> Contacts { get; set; }
+       public System.Data.Entity.DbSet<DimondDating.QuickSearch> DimondDating { get; set; }
     }
-
 }
+    

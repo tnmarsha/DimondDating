@@ -5,9 +5,10 @@ namespace DimondDating.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
     using ContactManager.Models;
+    using DimondDating.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using Models;
+ 
 
     internal sealed class Configuration : DbMigrationsConfiguration<DimondDating.Models.ApplicationDbContext>
     {
@@ -84,7 +85,56 @@ namespace DimondDating.Migrations
                         State = "WA",
                         Zip = "10999",
                         Email = "diliana@example.com",
+                    });
+
+                AddUserAndRole(context);
+                context.DimondDating.AddOrUpdate(p => p.familyname,
+                   new QuickSearch
+                   {
+                       familyname = " Garcia",
+                       address1 = "1234 Main St",
+                       city = "Redmond",
+                       state = "WA",
+                       zip = "10999",
+                       
+                   },
+                    new QuickSearch
+                    {
+                        familyname = " Weinrich",
+                        address1 = "5678 1st Ave W",
+                        city = "Redmond",
+                        state = "WA",
+                        zip = "10999",
+                        
+                    },
+                    new QuickSearch
+                    {
+                        familyname = "Yuhong Li",
+                        address1 = "9012 State st",
+                        city = "Redmond",
+                        state = "WA",
+                        zip = "10999",
+                        
+                    },
+                    new QuickSearch
+                    {
+                        familyname = " Orton",
+                        address1 = "3456 Maple St",
+                        city = "Redmond",
+                        state = "WA",
+                        zip = "10999",
+                        
+                    },
+                    new QuickSearch
+                    {
+                        familyname = "Bosseva",
+                        address1 = "7890 2nd Ave E",
+                        city = "Redmond",
+                        state = "WA",
+                        zip = "10999",
+                        
                     }
+                    
                     );
             }
                 //  This method will be called after migrating to the latest version.

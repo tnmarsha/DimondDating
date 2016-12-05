@@ -1,15 +1,11 @@
 ﻿using System;
-
 using System.Collections.Generic;
-
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
-
+using System.Net;
 using System.Web;
-
 using System.Web.Mvc;
-
-using System.Web.Routing;
-
 using DimondDating.Models;
 
 
@@ -22,338 +18,130 @@ namespace DimondDating.Controllers
 
     {
 
-        List<QuickSearch> families;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
-
-
-        public HelloworldController()
-
-        {
-
-            families = new List<QuickSearch>
-
-            {
-
-                new QuickSearch() { id=0, familyname = "Madeira", address1 = "123 Hastings Dr", city = "Cranberry Township", state = "PA", zip = "16066", homephone = "7247797964" },
-
-                new QuickSearch() { id=1, familyname = "Johns", address1 = "3200 College Ave", city = "Beaver Falls", state = "PA", zip = "15010", homephone = "7248461298" },
-
-                new QuickSearch() { id=2, familyname = "Ellis", address1 = "1 Sycamore Hollow", city = "Pittsburgh", state = "PA", zip = "15212", homephone = "4122371212" },
-
-                new QuickSearch() { id=3, familyname = "Braddock", address1 = "23 Livingstone Dr", city = "Monroeville", state = "PA", zip = "15010", homephone = "4123277486" }
-
-            };
-
-
-
-
-
-        }
-
-
-
-        protected override void Initialize(RequestContext requestContext)
-
-        {
-
-            base.Initialize(requestContext);
-
-            if (Session["familyList"] == null)
-
-            {
-
-                Session["familyList"] = families;
-
-            }
-
-        }
-
-
-
-        // GET: Family
-
+        // GET: Contacts
         public ActionResult Index()
-
         {
-
-            var f = (List<QuickSearch>)Session["familyList"];
-
-            return View(f);
-
+            return View(db.DimondDating.ToList());
         }
 
-
-
-        // GET: Family/Details/5
-
-        public ActionResult Details(int id)
-
+        // GET: Contacts/Details/5
+        public ActionResult Details(int? id)
         {
-
-            // Get the list of people from the session
-
-            var fList = (List<QuickSearch>)Session["familyList"];
-
-
-
-            // Get the person with the passed in ID
-
-            var f = fList[id];
-
-
-
-            // Return the person data to the view
-
-            return View(f);
-
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            QuickSearch contact = db.DimondDating.Find(id);
+            if (contact == null)
+            {
+                return HttpNotFound();
+            }
+            return View(contact);
         }
 
+        // GET: Contacts/Create
 
-
-        // GET: Family/Create
 
         public ActionResult Create()
-
         {
-
-            return View();
+            return View(new QuickSearch
+            {
+                address1 = "123 N 456 W",
+                city = "Great Falls",
+                familyname = "Joe Smith",
+                state = "MT",
+                zip = "59405"
+            });
 
         }
 
-
-
-        // POST: Family/Create
-
+        // POST: Contacts/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [ValidateAntiForgeryToken]
 
-        public ActionResult Create(FormCollection collection)
 
+        public ActionResult Create([Bind(Include = "ContactId,Name,Address,City,State,Zip,Email")]  QuickSearch contact)
         {
-
-            try
-
+            if (ModelState.IsValid)
             {
-
-                families = (List<QuickSearch>)Session["familyList"];
-
-                QuickSearch newFamily = new QuickSearch()
-
-                {
-
-                    id = families.Count(),
-
-                    familyname = collection["familyname"],
-
-                    address1 = collection["address1"],
-
-                    city = collection["city"],
-
-                    state = collection["state"],
-
-                    zip = collection["zip"],
-
-                    homephone = collection["homephone"]
-
-                };
-
-
-
-                // Add the person to the list
-
-                families = (List<QuickSearch>)Session["familyList"];
-
-                families.Add(newFamily);
-
-
-
-                // Save the list to the session
-
-                Session["familyList"] = families;
-
-
-
+                db.DimondDating.Add(contact);
+                db.SaveChanges();
                 return RedirectToAction("Index");
-
             }
 
-            catch
-
-            {
-
-                return View();
-
-            }
-
+            return View(contact);
         }
 
-        // GET: Family/Edit/5
+        // GET: Contacts/Edit/5
 
-        public ActionResult Edit(int id)
 
+        public ActionResult Edit(int? id)
         {
-
-            var fList = (List<QuickSearch>)Session["familyList"];
-
-            var f = families[id];
-
-
-
-            // Return the person data to the view
-
-            return View(f);
-
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            QuickSearch contact = db.DimondDating.Find(id);
+            if (contact == null)
+            {
+                return HttpNotFound();
+            }
+            return View(contact);
         }
 
-
-
-        // POST: Family/Edit/5
-
+        // POST: Contacts/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-
-        public ActionResult Edit(int id, FormCollection collection)
-
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "ContactId,Name,Address,City,State,Zip,Email")]QuickSearch contact)
         {
-
-            try
-
+            if (ModelState.IsValid)
             {
-
-                var families = (List<QuickSearch>)Session["familyList"];
-
-
-
-                var f = families[id];
-
-
-
-                QuickSearch newFamily = new QuickSearch()
-
-                {
-
-                    id = families.Count(),
-
-                    familyname = collection["familyname"],
-
-                    address1 = collection["address1"],
-
-                    city = collection["city"],
-
-                    state = collection["state"],
-
-                    zip = collection["zip"],
-
-                    homephone = collection["homephone"]
-
-                };
-
-
-
-                families.Where(x => x.id == id).First().familyname = collection["familyname"];
-
-                families.Where(x => x.id == id).First().address1 = collection["address1"];
-
-                families.Where(x => x.id == id).First().city = collection["city"];
-
-                families.Where(x => x.id == id).First().state = collection["state"];
-
-                families.Where(x => x.id == id).First().zip = collection["zip"];
-
-                families.Where(x => x.id == id).First().homephone = collection["homephone"];
-
-
-
-
-
-
-
+                db.Entry(contact).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
-
             }
-
-            catch
-
-            {
-
-                return View();
-
-            }
-
+            return View(contact);
         }
 
-
-
-        // GET: Family/Delete/5
-
-        public ActionResult Delete(int id)
-
+        // GET: Contacts/Delete/5
+        public ActionResult Delete(int? id)
         {
-
-            var fList = (List<QuickSearch>)Session["familyList"];
-
-            var f = families[id];
-
-
-
-            // Return the person data to the view
-
-            return View(f);
-
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            QuickSearch contact = db.DimondDating.Find(id);
+            if (contact == null)
+            {
+                return HttpNotFound();
+            }
+            return View(contact);
         }
 
-
-
-        // POST: Family/Delete/5
-
-        [HttpPost]
-
-        public ActionResult Delete(int id, FormCollection collection)
-
+        // POST: Contacts/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
         {
-
-            try
-
-            {
-
-                // Add the person to the list
-
-                families = (List<QuickSearch>)Session["familyList"];
-
-                var f = families[id];
-
-                families.Remove(f);
-
-
-
-                // Save the list to the session
-
-                Session["familyList"] = families;
-
-
-
-                for (int x = id; x < families.Count(); x++)
-
-                {
-
-                    if (families[x] != null)
-
-                        families[x].id = x;
-
-                }
-
-                return RedirectToAction("Index");
-
-            }
-
-            catch
-
-            {
-
-                return View();
-
-            }
-
+            QuickSearch contact = db.DimondDating.Find(id);
+            db.DimondDating.Remove(contact);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
-
 }
